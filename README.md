@@ -27,3 +27,27 @@ This will start with the sample FORM being generated. Usage is explaind below:
 	3. Overriden widgetProcessor can be found from the package "widgetprocessor", auto-compile of modifications on the .ts file will be reflected.
 	4. pipeline-configuration can be found on the metawidget.component.ts
 	5. Dynamic component.service #TODO {A2-specific}
+	
+Usage in different project:
+
+	1. The detatchable components & JS-dependencies are necessary for the MW to work in A2.
+	2. To test it, create an A2 project with app.component.ts, include the compilable components in app.module.ts
+	
+Note: eg:-
+
+@NgModule({
+  imports: [ BrowserModule, FormsModule, HttpModule ],
+  declarations: [ 
+      AppComponent,
+      MetawidgetComponent
+    ],
+  providers: [  ],
+  bootstrap: [ AppComponent ]
+})
+
+with imports: 
+
+import { MetawidgetComponent } from './metawidget/metawidget.component';
+import { Angular2WidgetProcessor } from './widgetprocessor/angular2-widget-processor.component';
+
+Rest of the configurations can be follwed as it is in app.component.ts.
