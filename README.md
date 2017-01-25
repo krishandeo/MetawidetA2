@@ -47,7 +47,7 @@ Note: eg:-
 
 with imports: 
 
-import { MetawidgetComponent } from './metawidget/metawidget.component';
-import { Angular2WidgetProcessor } from './widgetprocessor/angular2-widget-processor.component';
+	import { MetawidgetComponent } from './metawidget/metawidget.component';
+	import { Angular2WidgetProcessor } from './widgetprocessor/angular2-widget-processor.component';
 
 Rest of the configurations can be follwed as it is in app.component.ts.
