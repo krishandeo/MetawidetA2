@@ -25,7 +25,7 @@ declare var $: any;
 @Component({
 	selector: 'app',
 	template: `
-		<h3>GetUs ROI UI Framework Form Generation Using MW and A2</h3>
+		<h3>Form Generation Using MW and A2</h3>
 		<div id="metawidget"></div>
         <form>
 			<metawidget [(schemaConfiguration)]="schemaConfiguration" [(model)]="model" ></metawidget>
