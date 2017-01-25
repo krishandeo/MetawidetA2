@@ -8,7 +8,7 @@ Download file:
 
 Overview:
 
-	A2 wiredup with Systemjs.config.js, tsconfig.json & typings.json default configurions which is necessary to run the A2 app. Whereas package.json adds the dependencies to MW-Component.
+A2 wiredup with Systemjs.config.js, tsconfig.json & typings.json default configurions which is necessary to run the A2 app. Whereas package.json adds the dependencies to MW-Component.
 This incubation, can also be configured with valid Webpack config also. This has the basic MW-Pipeline configured can be extended in further releases.
 App starts from the index.html, can be found in the root folder. Core package contains all necessary metawidget-dependencies(core-js files).
 We have followed the TypeScript compiler.
