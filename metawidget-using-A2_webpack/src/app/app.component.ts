@@ -158,6 +158,9 @@ export class AppComponent {
 																							},
 																							"country": {
 																								"type": "string"
+																							},
+																							"button": {
+																								"type": "function"
 																							}
 																						}
 																					}
