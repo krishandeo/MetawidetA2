@@ -23,13 +23,13 @@ declare var $: any;
 export class MetawidgetComponent implements OnInit {
 
     @Input()
-    config: Object;
+    schemaConfiguration: Object;
     @Input()
     model: any;
     elem: Element;
     _pipeline: any;
     path: string;
-    compRef: any;
+    rootComponentReference: any;
 
     constructor(public element: ElementRef, public compiler: Compiler, public vcRef: ViewContainerRef) {
         this.elem = element.nativeElement;
@@ -39,7 +39,7 @@ export class MetawidgetComponent implements OnInit {
         if( this.model === undefined ) {
             this.model = {};
         }
-        metaWidgetConfiguration(this.elem, this.config, this, this.vcRef, this.compiler, this.compRef);
+        metaWidgetConfiguration(this.elem, this.schemaConfiguration, this, this.vcRef, this.compiler, this.rootComponentReference);
     }
 
     clearWidgets() {
@@ -77,7 +77,7 @@ export function metaWidgetConfiguration(elem: Object, schemaConfiguration: Objec
     pipeline.layoutWidget = function (widget: any, elementName: Object, attributes: Object, container: HTMLElement, mw: any) {
         if (widget.overridden === undefined) {
             let dynamicService = new DynamicComponentService(compiler);
-            widget = dynamicService.getDOMElementOfDynamicTemplate(widget, vcRef, mw.model, compRef);
+            widget = dynamicService.getDOMElementOfDynamicTemplate(widget, vcRef, compRef);
             widget = widget.firstChild;
         }
         pipeline._superLayoutWidget.call(this, widget, elementName, attributes, container, mw);

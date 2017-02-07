@@ -143,11 +143,8 @@ var metawidget = metawidget || {};
 				}
 				
 				var splitPath = metawidget.util.splitPath( this.path );
-				console.log("ToInspect: " + JSON.stringify(this.toInspect) );
-				console.log("splitPath.name: " + splitPath.names);
 
 				inspectionResult = _pipeline.inspect( this.toInspect, splitPath.type, splitPath.names, this );
-				console.log("Inspection Result: " + JSON.stringify(inspectionResult))
 			}
 
 			// Build widgets

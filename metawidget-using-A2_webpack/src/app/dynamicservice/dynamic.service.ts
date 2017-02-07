@@ -30,7 +30,7 @@ export class DynamicComponentService {
     clickMethod: any;
     constructor(private compiler: Compiler) { }
 
-    getDOMElementOfDynamicTemplate( template: any, vcRef: ViewContainerRef, model: Object, appComp: any ) {
+    getDOMElementOfDynamicTemplate( template: any, vcRef: ViewContainerRef, rootComponentReference: any ) {
 
         this.clickMethod = template.getAttribute('on-click');
         template = template.outerHTML;
@@ -47,19 +47,19 @@ export class DynamicComponentService {
         const compMetadata = new Component({
             template: html
         });
-        let factory = this.createComponentFactory( this.compiler, compMetadata, model, appComp );
+        let factory = this.createComponentFactory( this.compiler, compMetadata, rootComponentReference );
         const injector = ReflectiveInjector.fromResolvedProviders( [], vcRef.parentInjector );
         this.cmpRef = vcRef.createComponent( factory, vcRef.length, injector );
-        appComp.metWidgetCompRef = this.cmpRef;
+        rootComponentReference.metWidgetCompRef = this.cmpRef;
         const hostView = <EmbeddedViewRef<any>>this.cmpRef.hostView;
         return hostView.rootNodes[0];
 
     }
 
-    createComponentFactory( compiler: Compiler, metadata: Component, model: Object, appComp: any ) {
+    createComponentFactory( compiler: Compiler, metadata: Component, rootComponentReference: any ) {
         @Component(metadata)
         class DynamicComponent {
-            model = model;
+            ref = rootComponentReference;
             constructor() {
             }
         };

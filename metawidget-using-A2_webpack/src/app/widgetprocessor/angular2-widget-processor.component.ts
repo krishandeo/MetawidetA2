@@ -19,7 +19,7 @@ export class Angular2WidgetProcessor {
     constructor() { }
 
     processWidget(widget: HTMLElement, elementName: Object, attributes: Object, mw: any) {
-        let modelObject = "model";
+        let modelObject = "ref.model";
         if (mw.path !== undefined) {
             var splitPath = metawidget.util.splitPath(mw.path);
             let modelName = String(splitPath.names);
@@ -36,13 +36,15 @@ export class Angular2WidgetProcessor {
         let widgetString = widget.outerHTML;
         if (widget.tagName === "INPUT") {
             if (widget.getAttribute("type") === "submit" || widget.getAttribute("type") === "button") {
-                let binding = "model." + widget.id + "()";
+                let binding = "ref." + widget.id + "()";
                 widget.setAttribute("on-click", binding);
             } else {
                 widget.setAttribute("bindon-ngModel", model);
             }
         } else if (widget.tagName === "SELECT") {
             widget.setAttribute("bindon-ngModel", model);
+            let binding = "ref." + widget.id + "($event)";
+            widget.setAttribute("on-change", binding);
         } else if (widget.tagName === "TEXTAREA") {
             widget.setAttribute("bindon-ngModel", model);
         }

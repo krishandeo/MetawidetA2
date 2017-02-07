@@ -16,13 +16,12 @@ export class AppComponent implements OnInit {
 	@ViewChild('metawidget', { read: ViewContainerRef })
 	metawidgetVCRef: ViewContainerRef;
 	metWidgetCompRef: any;
-	subscription: any;
 
 	constructor() {
 	}
 
 	ngOnInit() {
-		this.mw.compRef = this;
+		this.mw.rootComponentReference = this;
 	}
 
 	/**
@@ -33,19 +32,26 @@ export class AppComponent implements OnInit {
 		alert("Model: " + JSON.stringify(this));
 	}
 
+	designation(event: any) {
+		alert("Change Event: " + event.target.value);
+	}
+
+	save() {
+		//Since Scope is not available in Angular2 we are passing "this" (Current Component Reference)
+		alert("Model: " + JSON.stringify(this.model));
+	}
+
 	model = {
-		save: this.onClick,
 		firstName: "John",
 		lastName: "Doe",
-		age: 42,
+		age: 28,
 		"address": {
 			city: "NY",
 			country: "US",
 		},
-		email: 'john@abc.com'
+		email: 'john@abc.com',
+		"designation": "Full Stack Developer"
 	};
-
-	
 
 	schemaConfiguration: Object = {
 		"type": "object",
@@ -73,6 +79,9 @@ export class AppComponent implements OnInit {
 			"email": {
 				"type": "string"
 			},
+			"designation": {
+				enum: ['Software Developer', 'System Admin', 'Full Stack Developer']
+			},
 			"save": {
 				type: "function"
 			}
@@ -80,7 +89,7 @@ export class AppComponent implements OnInit {
 	};
 
 	config: Object = {
-		inspector: new metawidget.inspector.JsonSchemaInspector( this.schemaConfiguration )
+		inspector: new metawidget.inspector.JsonSchemaInspector(this.schemaConfiguration)
 	};
 
 }
