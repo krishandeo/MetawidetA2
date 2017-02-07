@@ -36,9 +36,10 @@ export class Angular2WidgetProcessor {
         let widgetString = widget.outerHTML;
         if (widget.tagName === "INPUT") {
             if (widget.getAttribute("type") === "submit" || widget.getAttribute("type") === "button") {
-                widget.setAttribute("on-click", "checkingButton()");
+                let binding = "model." + widget.id + "()";
+                widget.setAttribute("on-click", binding);
             } else {
-               widget.setAttribute("bindon-ngModel", model);
+                widget.setAttribute("bindon-ngModel", model);
             }
         } else if (widget.tagName === "SELECT") {
             widget.setAttribute("bindon-ngModel", model);
@@ -46,6 +47,7 @@ export class Angular2WidgetProcessor {
             widget.setAttribute("bindon-ngModel", model);
         }
         return widget;
+
     }
 
 }

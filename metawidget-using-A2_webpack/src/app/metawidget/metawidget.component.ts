@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 import { Angular2WidgetProcessor } from '../widgetprocessor/angular2-widget-processor.component';
 import { DynamicComponentService } from '../dynamicservice/dynamic.service';
+import { AppComponent } from '../app.component';
 
 declare var metawidget: any;
 declare var $: any;
@@ -28,6 +29,7 @@ export class MetawidgetComponent implements OnInit {
     elem: Element;
     _pipeline: any;
     path: string;
+    compRef: any;
 
     constructor(public element: ElementRef, public compiler: Compiler, public vcRef: ViewContainerRef) {
         this.elem = element.nativeElement;
@@ -37,7 +39,7 @@ export class MetawidgetComponent implements OnInit {
         if( this.model === undefined ) {
             this.model = {};
         }
-        metaWidgetConfiguration(this.elem, this.config, this, this.vcRef, this.compiler);
+        metaWidgetConfiguration(this.elem, this.config, this, this.vcRef, this.compiler, this.compRef);
     }
 
     clearWidgets() {
@@ -52,11 +54,10 @@ export class MetawidgetComponent implements OnInit {
     }
 
     buildNestedMetawidget(attributes: any, config: any) {
-        console.log("attributes: " + config);
         if( this.model[attributes.name] === undefined ) {
             this.model[attributes.name] = {};
         }
-        var nestedWidget = metawidget.util.createElement(this, 'div');
+        var nestedWidget = metawidget.util.createElement( this, 'div' );
         var nestedMetawidget = new metawidget.Metawidget(nestedWidget, [this._pipeline, config]);
         nestedMetawidget.path = metawidget.util.appendPath(attributes, this);
         nestedMetawidget.buildWidgets();
@@ -67,22 +68,16 @@ export class MetawidgetComponent implements OnInit {
         return this.elem;
     }
 
-    makeJSONModelFromJSONSchema( jsonSchema: any ) {
-        while( true ) {
-
-        }
-    }
-
 }
 
-export function metaWidgetConfiguration(elem: Object, schemaConfiguration: Object, reference: any, vcRef: ViewContainerRef, compiler: Compiler) {
+export function metaWidgetConfiguration(elem: Object, schemaConfiguration: Object, reference: any, vcRef: ViewContainerRef, compiler: Compiler, compRef: any) {
 
     let pipeline = new metawidget.Pipeline(elem);
     pipeline._superLayoutWidget = pipeline.layoutWidget;
     pipeline.layoutWidget = function (widget: any, elementName: Object, attributes: Object, container: HTMLElement, mw: any) {
         if (widget.overridden === undefined) {
             let dynamicService = new DynamicComponentService(compiler);
-            widget = dynamicService.getDOMElementOfDynamicTemplate(widget.outerHTML, vcRef, mw.model);
+            widget = dynamicService.getDOMElementOfDynamicTemplate(widget, vcRef, mw.model, compRef);
             widget = widget.firstChild;
         }
         pipeline._superLayoutWidget.call(this, widget, elementName, attributes, container, mw);
@@ -102,7 +97,6 @@ export function metaWidgetConfiguration(elem: Object, schemaConfiguration: Objec
         new metawidget.layout.TableLayout({ numberOfColumns: 1 }));
     pipeline.configure(schemaConfiguration);
     reference._pipeline = pipeline;
-    console.log("Inspect Pipeline: " + JSON.stringify(pipeline.inspect()));
     pipeline.buildWidgets(pipeline.inspect(), reference);
     
 }
