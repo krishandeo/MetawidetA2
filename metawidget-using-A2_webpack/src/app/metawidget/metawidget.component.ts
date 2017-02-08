@@ -23,7 +23,7 @@ declare var $: any;
 export class MetawidgetComponent implements OnInit {
 
     @Input()
-    schemaConfiguration: Object;
+    config: Object;
     @Input()
     model: any;
     elem: Element;
@@ -39,7 +39,7 @@ export class MetawidgetComponent implements OnInit {
         if( this.model === undefined ) {
             this.model = {};
         }
-        metaWidgetConfiguration(this.elem, this.schemaConfiguration, this, this.vcRef, this.compiler, this.rootComponentReference);
+        metaWidgetConfiguration(this.elem, this.config, this, this.vcRef, this.compiler, this.rootComponentReference);
     }
 
     clearWidgets() {
